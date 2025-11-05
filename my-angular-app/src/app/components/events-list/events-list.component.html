@@ -1,0 +1,9 @@
+<div class="eventsListContainer">
+  <ul>
+    @for(event of eventsList; track event.id){
+    <li>
+      <app-single-event [event]="event"></app-single-event>
+    </li>
+    }
+  </ul>
+</div>

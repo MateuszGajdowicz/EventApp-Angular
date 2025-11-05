@@ -1,0 +1,14 @@
+<div class="singleEventComponent">
+  <h3>{{ event()?.title }}</h3>
+  <h4>{{ event()?.description }}</h4>
+
+  <p>{{ event()?.currentMembers }}/{{ event()?.capacity }}</p>
+  <p>{{ event()?.host }}</p>
+  <select name="" id="" [value]="event()?.status" [(ngModel)]="selectValue">
+    <option value="willing">Chętny</option>
+    <option value="unwilling">Niechętny</option>
+    <option value="interested">Zainteresowany</option>
+  </select>
+  <!-- <button>Usuń</button>
+  <button>Edytuj</button> -->
+</div>
