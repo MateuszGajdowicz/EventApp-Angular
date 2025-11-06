@@ -1,0 +1,16 @@
+<div class="addEventContainer">
+  <input type="text" placeholder="Nazwa" [(ngModel)]="newEventTitle" />
+  <input type="text" placeholder="Opis" [(ngModel)]="newEventDescription" />
+  <input type="text" placeholder="Lokalizacja" [(ngModel)]="newEventLocation" />
+  <select name="" id="" [(ngModel)]="newEventType">
+    <option value="meetup">meetup</option>
+    <option value="concert">concert</option>
+    <option value="workshop">workshop</option>
+    <option value="party">party</option>
+    <option value="sport">sport</option>
+    <option value="conference">conference</option>
+    <option value="webinar">webinar</option>
+  </select>
+  <input type="number" placeholder="Capacity" [(ngModel)]="newEventCapacity" />
+  <button (click)="onAddNewEvent()">Dodaj</button>
+</div>

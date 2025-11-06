@@ -14,10 +14,9 @@ export class SingleEventComponent {
   selectValue = signal<string>('unwilling');
   constructor() {
     effect(() => {
-      const currentEvent = this.event();
-      if (currentEvent) {
-        // tylko jeśli event istnieje
-        this.onUpdateEventStatus(currentEvent, this.selectValue());
+      if (!this.event()) return;
+      if (this.event()?.status !== 'owner') {
+        this.onUpdateEventStatus(this.event()!, this.selectValue());
       }
     });
   }

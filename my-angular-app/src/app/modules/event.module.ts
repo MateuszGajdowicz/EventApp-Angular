@@ -19,9 +19,9 @@ export type eventType = {
   host: string;
   location: string;
   type: EventType;
-  tags: string[];
+  tags?: string[];
   capacity: number;
   currentMembers: number;
-  status: 'willing' | 'interested' | 'unwilling';
-  comments: CommentType[];
+  status: 'willing' | 'interested' | 'unwilling' | 'owner';
+  comments?: CommentType[];
 };

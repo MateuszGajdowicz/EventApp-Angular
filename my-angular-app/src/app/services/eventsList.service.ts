@@ -90,12 +90,13 @@ export class eventsListService {
       comments: [],
     },
   ];
-  addEvent(newEvent: eventType) {
-    this.eventsList.unshift(newEvent);
-  }
 
-  updateEventStatus(event: eventType, newStatus: 'willing' | 'interested' | 'unwilling') {
+  updateEventStatus(event: eventType, newStatus: 'willing' | 'interested' | 'unwilling' | 'owner') {
     event!.status = newStatus;
     console.log(event);
+  }
+
+  addNewEvent(newEvent: eventType) {
+    this.eventsList.unshift(newEvent);
   }
 }
