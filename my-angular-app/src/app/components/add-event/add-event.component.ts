@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { eventsListService } from '../../services/eventsList.service';
 import { Title } from '@angular/platform-browser';
@@ -21,12 +21,14 @@ export class AddEventComponent {
 
   newEvent: eventType | null = null;
 
+  username = input<string>('');
+
   onAddNewEvent() {
     this.newEvent = {
       id: Math.floor(Math.random() * 1000),
       title: this.newEventTitle(),
       description: this.newEventDescription(),
-      host: 'Host Hostowy',
+      host: this.username(),
       location: this.newEventLocation(),
       type: this.newEventType(),
       capacity: this.newEventCapacity(),

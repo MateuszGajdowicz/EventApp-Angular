@@ -1,9 +1,15 @@
-<div class="eventsListContainer">
-  <ul>
-    @for(event of eventsList; track event.id){
-    <li>
-      <app-single-event [event]="event"></app-single-event>
-    </li>
-    }
-  </ul>
+<h1>Nadchodzące wydarzenia</h1>
+<app-filter />
+
+<div
+  class="scrollbar-hide w-[500px] flex flex-col rounded-2xl py-4 gap-4 max-h-[550px] overflow-scroll"
+>
+  @if(eventsList().length!==0){ @for(event of eventsList(); track event.id){
+  <app-single-event
+    class="mx-8 bg-slate-200 p-4 rounded-2xl shadow-lg"
+    [event]="event"
+  ></app-single-event>
+  } } @else {
+  <h2>Brak wyników spełniających kryteria</h2>
+  }
 </div>

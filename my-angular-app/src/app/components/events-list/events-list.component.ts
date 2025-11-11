@@ -1,16 +1,17 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { eventsListService } from '../../services/eventsList.service';
 import { SingleEventComponent } from './single-event.component/single-event.component';
 import { eventType } from '../../modules/event.module';
+import { FilterComponent } from './filter/filter.component';
 
 @Component({
   selector: 'app-events-list',
-  imports: [SingleEventComponent],
+  imports: [SingleEventComponent, FilterComponent],
   templateUrl: './events-list.component.html',
   styleUrl: './events-list.component.css',
 })
 export class EventsListComponent {
   eventListService = inject(eventsListService);
 
-  eventsList: eventType[] = this.eventListService.eventsList;
+  eventsList = this.eventListService.eventsList;
 }

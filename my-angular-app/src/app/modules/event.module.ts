@@ -25,3 +25,10 @@ export type eventType = {
   status: 'willing' | 'interested' | 'unwilling' | 'owner';
   comments?: CommentType[];
 };
+
+export type commentType = {
+  id: number;
+  date: string;
+  user: string;
+  content: string;
+};

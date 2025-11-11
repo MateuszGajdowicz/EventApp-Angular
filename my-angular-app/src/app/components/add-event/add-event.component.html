@@ -1,8 +1,13 @@
-<div class="addEventContainer">
-  <input type="text" placeholder="Nazwa" [(ngModel)]="newEventTitle" />
-  <input type="text" placeholder="Opis" [(ngModel)]="newEventDescription" />
-  <input type="text" placeholder="Lokalizacja" [(ngModel)]="newEventLocation" />
-  <select name="" id="" [(ngModel)]="newEventType">
+<div class="bg-slate-500 absolute w-[300px] left-[35%] top-[35%] flex flex-col p-20 gap-4">
+  <input class="p-2 rounded-xl" type="text" placeholder="Nazwa" [(ngModel)]="newEventTitle" />
+  <input class="p-2 rounded-xl" type="text" placeholder="Opis" [(ngModel)]="newEventDescription" />
+  <input
+    class="p-2 rounded-xl"
+    type="text"
+    placeholder="Lokalizacja"
+    [(ngModel)]="newEventLocation"
+  />
+  <select class="p-2 rounded-xl" name="" id="" [(ngModel)]="newEventType">
     <option value="meetup">meetup</option>
     <option value="concert">concert</option>
     <option value="workshop">workshop</option>
@@ -11,6 +16,11 @@
     <option value="conference">conference</option>
     <option value="webinar">webinar</option>
   </select>
-  <input type="number" placeholder="Capacity" [(ngModel)]="newEventCapacity" />
-  <button (click)="onAddNewEvent()">Dodaj</button>
+  <input
+    class="p-2 rounded-xl"
+    type="number"
+    placeholder="Capacity"
+    [(ngModel)]="newEventCapacity"
+  />
+  <button class="p-2 rounded-xl" (click)="onAddNewEvent()">Dodaj</button>
 </div>

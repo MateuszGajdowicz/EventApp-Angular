@@ -7,12 +7,25 @@
   @if(event()?.status ==='owner'){
   <p>You are the owner</p>
   } @else{
-  <select name="" id="" [value]="event()?.status" [(ngModel)]="selectValue">
+  <select
+    class="bg-blue-300 h-8 rounded-xl border-none p-2"
+    name=""
+    id=""
+    [value]="event()?.status"
+    [(ngModel)]="selectValue"
+  >
     <option value="willing">Chętny</option>
     <option value="unwilling">Niechętny</option>
     <option value="interested">Zainteresowany</option>
   </select>
   }
+  <p class="cursor-pointer" (click)="changeCommentsDisplay()">Komentarze</p>
+  @if(areCommentsDisplayed()){ @if(event()?.comments?.length!==0){ @for(comment of
+  event()?.comments; track comment.id){
+  <app-comment [comment]="comment" />
+  } } @else {
+  <p>Brak komentarzy</p>
+  } }
 
   <!-- <button>Usuń</button>
   <button>Edytuj</button> -->

@@ -1,0 +1,35 @@
+<div>
+  <input
+    type="text"
+    placeholder="Nazwa"
+    [(ngModel)]="filters.title"
+    (ngModelChange)="onFilterByTitle($event)"
+  />
+  <input
+    type="number"
+    placeholder="minimalna liczba ludzi"
+    [(ngModel)]="filters.minPeople"
+    (ngModelChange)="onFilterByCapacity(filters.minPeople, filters.maxPeople)"
+  />
+  <input
+    type="number"
+    placeholder="maksymalna liczba ludzi"
+    [(ngModel)]="filters.maxPeople"
+    (ngModelChange)="onFilterByCapacity(filters.minPeople, filters.maxPeople)"
+  />
+  <input
+    type="text"
+    placeholder="Miejsce"
+    [(ngModel)]="filters.location"
+    (ngModelChange)="onFilterByLocation($event)"
+  />
+  <select name="" id="" [(ngModel)]="filters.type" (ngModelChange)="onFilterByType($event)">
+    <option value="meetup">meetup</option>
+    <option value="concert">concert</option>
+    <option value="workshop">workshop</option>
+    <option value="party">party</option>
+    <option value="sport">sport</option>
+    <option value="conference">conference</option>
+    <option value="webinar">webinar</option>
+  </select>
+</div>

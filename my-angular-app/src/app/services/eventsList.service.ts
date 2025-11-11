@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { eventType } from '../modules/event.module';
+import { filter } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class eventsListService {
-  eventsList: eventType[] = [
+  // Oryginalne eventy (nie zmieniane, baza danych)
+  allEvents = signal<eventType[]>([
     {
       id: 1,
       title: 'Angular Meetup PW',
@@ -31,9 +33,7 @@ export class eventsListService {
       tags: ['Jazz', 'Muzyka', 'Plener'],
       capacity: 200,
       status: 'unwilling',
-
       currentMembers: 0,
-
       comments: [
         {
           id: 3,
@@ -53,9 +53,7 @@ export class eventsListService {
       tags: ['Python', 'Programowanie', 'Warsztat'],
       capacity: 25,
       status: 'unwilling',
-
       currentMembers: 0,
-
       comments: [],
     },
     {
@@ -68,9 +66,7 @@ export class eventsListService {
       tags: ['Studenci', 'Gry', 'Muzyka'],
       capacity: 100,
       status: 'unwilling',
-
       currentMembers: 0,
-
       comments: [
         { id: 4, date: '2025-11-04T19:00:00', user: 'Marta', content: 'Kto idzie razem?' },
       ],
@@ -85,18 +81,52 @@ export class eventsListService {
       tags: ['Sport', 'Piłka Nożna', 'Turniej'],
       capacity: 16,
       status: 'unwilling',
-
       currentMembers: 0,
       comments: [],
     },
-  ];
+  ]);
+
+  eventsList = signal<eventType[]>([...this.allEvents()]);
 
   updateEventStatus(event: eventType, newStatus: 'willing' | 'interested' | 'unwilling' | 'owner') {
-    event!.status = newStatus;
-    console.log(event);
+    this.eventsList.update((events) =>
+      events.map((e) => (e.id === event.id ? { ...e, status: newStatus } : e))
+    );
   }
 
   addNewEvent(newEvent: eventType) {
-    this.eventsList.unshift(newEvent);
+    this.eventsList.update((events) => [newEvent, ...events]);
+  }
+
+  filterByTitle(value: string) {
+    const search = value.toLowerCase().trim();
+
+    const filtered = this.allEvents().filter((event) => event.title.toLowerCase().includes(search));
+
+    this.eventsList.set(filtered);
+    console.log('Filtered events:', filtered);
+  }
+
+  filterByCapacity(minValue: number | null, maxValue: number | null) {
+    if (minValue !== null && maxValue !== null) {
+      const filtered = this.allEvents().filter(
+        (element) => element.capacity >= minValue && element.capacity <= maxValue
+      );
+      this.eventsList.set(filtered);
+    }
+    // this.eventsList.set([...this.allEvents()]);
+  }
+
+  filterByLocation(value: string) {
+    let search = value.toLowerCase().trim();
+    const filtered = this.allEvents().filter((element) =>
+      element.location.toLowerCase().includes(search)
+    );
+    this.eventsList.set(filtered);
+  }
+
+  filterByType(value: string) {
+    let filtered = this.allEvents().filter((element) => element.type === value);
+    this.eventsList.set(filtered);
   }
 }

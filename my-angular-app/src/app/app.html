@@ -1,1 +1,7 @@
-<app-header /> <app-events-list /> <app-add-event />
+<app-header />
+@if(isNameGiven()){
+<app-events-list /> <app-add-event [username]="userName()" />
+
+} @else {
+<app-name-input (nameGivenEmit)="setUsername($event)" />
+}
