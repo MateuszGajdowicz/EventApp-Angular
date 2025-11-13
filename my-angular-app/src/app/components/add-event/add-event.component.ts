@@ -1,4 +1,4 @@
-import { Component, inject, signal, input } from '@angular/core';
+import { Component, inject, signal, input, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { eventsListService } from '../../services/eventsList.service';
 import { Title } from '@angular/platform-browser';
@@ -21,7 +21,7 @@ export class AddEventComponent {
 
   newEvent: eventType | null = null;
 
-  username = input<string>('');
+  username = computed(() => this.eventListService.userName());
 
   onAddNewEvent() {
     this.newEvent = {
@@ -30,6 +30,7 @@ export class AddEventComponent {
       description: this.newEventDescription(),
       host: this.username(),
       location: this.newEventLocation(),
+      date: new Date().toUTCString(),
       type: this.newEventType(),
       capacity: this.newEventCapacity(),
       status: 'owner',

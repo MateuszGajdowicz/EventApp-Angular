@@ -14,12 +14,7 @@ import { NameInputComponent } from './components/name-input.component/name-input
 export class App {
   protected readonly title = signal('my-angular-app');
 
-  isNameGiven = signal<boolean>(true);
+  isNameGiven = signal<boolean>(false);
 
   userName = signal<string>('');
-
-  setUsername(value: string) {
-    this.isNameGiven.set(true);
-    this.userName.set(value);
-  }
 }

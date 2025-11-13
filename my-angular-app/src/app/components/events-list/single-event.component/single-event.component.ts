@@ -3,9 +3,10 @@ import { eventType } from '../../../modules/event.module';
 import { eventsListService } from '../../../services/eventsList.service';
 import { FormsModule } from '@angular/forms';
 import { CommentComponent } from './comment/comment.component';
+import { AddCommentComponent } from './add-comment/add-comment.component';
 @Component({
   selector: 'app-single-event',
-  imports: [FormsModule, CommentComponent],
+  imports: [FormsModule, CommentComponent, AddCommentComponent],
   templateUrl: './single-event.component.html',
   styleUrl: './single-event.component.css',
 })
@@ -16,13 +17,21 @@ export class SingleEventComponent {
 
   areCommentsDisplayed = signal<boolean>(false);
 
+  isAddCommentDisplayed = signal<boolean>(false);
+
   constructor() {
     effect(() => {
-      if (!this.event()) return;
-      if (this.event()?.status !== 'owner') {
-        this.onUpdateEventStatus(this.event()!, this.selectValue());
+      const event = this.event();
+      if (!event) return;
+
+      if (event.status !== this.selectValue()) {
+        this.onUpdateEventStatus(event, this.selectValue());
       }
     });
+  }
+
+  ChangeAddCommentDisplayed() {
+    this.isAddCommentDisplayed.update((prev) => !prev);
   }
 
   changeCommentsDisplay() {

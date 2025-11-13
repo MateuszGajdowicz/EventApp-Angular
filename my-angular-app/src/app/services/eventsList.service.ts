@@ -1,10 +1,10 @@
 import { Injectable, signal } from '@angular/core';
-import { eventType } from '../modules/event.module';
+import { commentType, eventType } from '../modules/event.module';
 import { filter } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class eventsListService {
-  // Oryginalne eventy (nie zmieniane, baza danych)
+  userName = signal<string>('');
   allEvents = signal<eventType[]>([
     {
       id: 1,
@@ -18,6 +18,7 @@ export class eventsListService {
       capacity: 50,
       status: 'unwilling',
       currentMembers: 0,
+      date: '2025-11-20T18:00:00', // przyszły tydzień
       comments: [
         { id: 1, date: '2025-11-01T18:30:00', user: 'Adam', content: 'Super inicjatywa!' },
         { id: 2, date: '2025-11-02T09:15:00', user: 'Ewa', content: 'Nie mogę się doczekać!' },
@@ -34,10 +35,11 @@ export class eventsListService {
       capacity: 200,
       status: 'unwilling',
       currentMembers: 0,
+      date: '2025-08-10T20:00:00', // przeszły event (lato)
       comments: [
         {
           id: 3,
-          date: '2025-11-03T20:00:00',
+          date: '2025-08-09T20:00:00',
           user: 'Krzysztof',
           content: 'Idealny pomysł na sobotni wieczór!',
         },
@@ -54,6 +56,7 @@ export class eventsListService {
       capacity: 25,
       status: 'unwilling',
       currentMembers: 0,
+      date: '2025-11-25T17:00:00', // przyszłość, za dwa tygodnie
       comments: [],
     },
     {
@@ -67,6 +70,7 @@ export class eventsListService {
       capacity: 100,
       status: 'unwilling',
       currentMembers: 0,
+      date: '2025-11-10T20:00:00', // kilka dni temu
       comments: [
         { id: 4, date: '2025-11-04T19:00:00', user: 'Marta', content: 'Kto idzie razem?' },
       ],
@@ -82,6 +86,7 @@ export class eventsListService {
       capacity: 16,
       status: 'unwilling',
       currentMembers: 0,
+      date: '2026-04-15T10:00:00', // wiosna przyszłego roku
       comments: [],
     },
   ]);
@@ -128,5 +133,15 @@ export class eventsListService {
   filterByType(value: string) {
     let filtered = this.allEvents().filter((element) => element.type === value);
     this.eventsList.set(filtered);
+  }
+
+  addComment(commentedValue: string, selectedEventId: number) {
+    let commentedEvent = this.allEvents().find((element) => element.id === selectedEventId);
+    commentedEvent?.comments?.unshift({
+      id: Math.floor(Math.random() * 1000),
+      date: new Date().toLocaleString(),
+      user: this.userName(),
+      content: commentedValue,
+    });
   }
 }

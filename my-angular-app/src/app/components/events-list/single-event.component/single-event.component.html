@@ -1,6 +1,7 @@
 <div class="singleEventComponent">
   <h3>{{ event()?.title }}</h3>
   <h4>{{ event()?.description }}</h4>
+  <h4>{{ event()?.date }}</h4>
 
   <p>{{ event()?.currentMembers }}/{{ event()?.capacity }}</p>
   <p>{{ event()?.host }}</p>
@@ -20,13 +21,20 @@
   </select>
   }
   <p class="cursor-pointer" (click)="changeCommentsDisplay()">Komentarze</p>
-  @if(areCommentsDisplayed()){ @if(event()?.comments?.length!==0){ @for(comment of
+  <p class="cursor-pointer" (click)="ChangeAddCommentDisplayed()">Dodaj komenatrz</p>
+
+  @if(isAddCommentDisplayed()){
+  <app-add-comment
+    [isAddCommentDisplayed]="isAddCommentDisplayed"
+    [areCommentsDisplayed]="areCommentsDisplayed"
+    [event]="event()"
+  />
+
+  } @if(areCommentsDisplayed()){ @if(event()?.comments?.length!==0){ @for(comment of
   event()?.comments; track comment.id){
   <app-comment [comment]="comment" />
   } } @else {
+
   <p>Brak komentarzy</p>
   } }
-
-  <!-- <button>Usuń</button>
-  <button>Edytuj</button> -->
 </div>

@@ -1,5 +1,15 @@
-import { Component, input, output, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  output,
+  signal,
+  computed,
+  Input,
+  WritableSignal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { eventsListService } from '../../services/eventsList.service';
 
 @Component({
   selector: 'app-name-input',
@@ -8,13 +18,14 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './name-input.component.css',
 })
 export class NameInputComponent {
+  eventListService = inject(eventsListService);
   nameGiven = signal<string>('');
+  @Input() isNameGiven: WritableSignal<boolean> = signal(false);
 
-  nameGivenEmit = output<string>();
-
-  EmitNameGiven() {
+  getUserName() {
     if (this.nameGiven() !== '') {
-      this.nameGivenEmit.emit(this.nameGiven());
+      this.eventListService.userName.set(this.nameGiven());
+      this.isNameGiven.set(true);
     }
   }
 }

@@ -18,6 +18,7 @@ export type eventType = {
   description: string;
   host: string;
   location: string;
+  date: string;
   type: EventType;
   tags?: string[];
   capacity: number;

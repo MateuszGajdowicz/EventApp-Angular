@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, input } from '@angular/core';
 import { eventsListService } from '../../services/eventsList.service';
 import { SingleEventComponent } from './single-event.component/single-event.component';
 import { eventType } from '../../modules/event.module';
