@@ -4,7 +4,7 @@ import { filter } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class eventsListService {
-  userName = signal<string>('');
+  userName = signal<string>('Mieciu');
   allEvents = signal<eventType[]>([
     {
       id: 1,
@@ -17,7 +17,7 @@ export class eventsListService {
       tags: ['Angular', 'Frontend', 'Tech'],
       capacity: 50,
       status: 'unwilling',
-      currentMembers: 0,
+      currentMembers: [],
       date: '2025-11-20T18:00:00', // przyszły tydzień
       comments: [
         { id: 1, date: '2025-11-01T18:30:00', user: 'Adam', content: 'Super inicjatywa!' },
@@ -34,7 +34,7 @@ export class eventsListService {
       tags: ['Jazz', 'Muzyka', 'Plener'],
       capacity: 200,
       status: 'unwilling',
-      currentMembers: 0,
+      currentMembers: [],
       date: '2025-08-10T20:00:00', // przeszły event (lato)
       comments: [
         {
@@ -55,7 +55,7 @@ export class eventsListService {
       tags: ['Python', 'Programowanie', 'Warsztat'],
       capacity: 25,
       status: 'unwilling',
-      currentMembers: 0,
+      currentMembers: [],
       date: '2025-11-25T17:00:00', // przyszłość, za dwa tygodnie
       comments: [],
     },
@@ -69,7 +69,7 @@ export class eventsListService {
       tags: ['Studenci', 'Gry', 'Muzyka'],
       capacity: 100,
       status: 'unwilling',
-      currentMembers: 0,
+      currentMembers: [],
       date: '2025-11-10T20:00:00', // kilka dni temu
       comments: [
         { id: 4, date: '2025-11-04T19:00:00', user: 'Marta', content: 'Kto idzie razem?' },
@@ -85,7 +85,7 @@ export class eventsListService {
       tags: ['Sport', 'Piłka Nożna', 'Turniej'],
       capacity: 16,
       status: 'unwilling',
-      currentMembers: 0,
+      currentMembers: [],
       date: '2026-04-15T10:00:00', // wiosna przyszłego roku
       comments: [],
     },
@@ -97,6 +97,20 @@ export class eventsListService {
     this.eventsList.update((events) =>
       events.map((e) => (e.id === event.id ? { ...e, status: newStatus } : e))
     );
+    if (newStatus === 'willing' || newStatus === 'interested') {
+      if (!event.currentMembers.includes(this.userName())) {
+        this.eventsList.update((events) =>
+          events.map((e) =>
+            e.id === event.id
+              ? {
+                  ...e,
+                  currentMembers: [...(e.currentMembers || []), this.userName()],
+                }
+              : e
+          )
+        );
+      }
+    }
   }
 
   addNewEvent(newEvent: eventType) {
@@ -131,8 +145,15 @@ export class eventsListService {
   }
 
   filterByType(value: string) {
-    let filtered = this.allEvents().filter((element) => element.type === value);
-    this.eventsList.set(filtered);
+    if (value === 'All') {
+      this.eventsList.set(this.allEvents());
+    } else {
+      let filtered = this.allEvents().filter((element) => element.type === value);
+      this.eventsList.set(filtered);
+    }
+  }
+  ClearFilters() {
+    this.eventsList.set(this.allEvents());
   }
 
   addComment(commentedValue: string, selectedEventId: number) {

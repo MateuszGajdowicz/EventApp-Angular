@@ -34,7 +34,7 @@ export class AddEventComponent {
       type: this.newEventType(),
       capacity: this.newEventCapacity(),
       status: 'owner',
-      currentMembers: 1,
+      currentMembers: [this.username()],
     };
     this.eventListService.addNewEvent(this.newEvent);
     console.log(this.newEvent);

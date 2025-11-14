@@ -15,7 +15,7 @@ export class FilterComponent {
     minPeople: null,
     maxPeople: null,
     location: '',
-    type: 'Typ',
+    type: 'All',
   };
 
   onFilterByTitle(value: string) {
@@ -31,5 +31,15 @@ export class FilterComponent {
   }
   onFilterByType(value: string) {
     this.eventListService.filterByType(value);
+  }
+  onClearFilters() {
+    this.eventListService.ClearFilters();
+    this.filters = {
+      title: '',
+      minPeople: null,
+      maxPeople: null,
+      location: '',
+      type: 'All',
+    };
   }
 }

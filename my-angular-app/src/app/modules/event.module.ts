@@ -22,7 +22,7 @@ export type eventType = {
   type: EventType;
   tags?: string[];
   capacity: number;
-  currentMembers: number;
+  currentMembers: string[];
   status: 'willing' | 'interested' | 'unwilling' | 'owner';
   comments?: CommentType[];
 };

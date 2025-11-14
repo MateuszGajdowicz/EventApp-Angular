@@ -3,7 +3,16 @@
   <h4>{{ event()?.description }}</h4>
   <h4>{{ event()?.date }}</h4>
 
-  <p>{{ event()?.currentMembers }}/{{ event()?.capacity }}</p>
+  <p>{{ event()?.currentMembers?.length }}/{{ event()?.capacity }}</p>
+  <h4 (click)="changeMembersDisplay()" class="cursor-pointer">
+    {{ areMembersDisplayed() ? 'Ukryj uczestników' : 'Pokaż uczestników' }}
+  </h4>
+  @if(areMembersDisplayed()){ @if(event()?.currentMembers?.length===0){
+  <p>Brak uczestników</p>
+  } @else{ @for( member of event()?.currentMembers; track member){
+  <p>{{ member }}</p>
+  } } }
+
   <p>{{ event()?.host }}</p>
   @if(event()?.status ==='owner'){
   <p>You are the owner</p>
@@ -36,5 +45,8 @@
   } } @else {
 
   <p>Brak komentarzy</p>
-  } }
+  } } @if(event()?.host===username()){
+  <button>Edytuj</button>
+
+  }
 </div>

@@ -24,6 +24,7 @@
     (ngModelChange)="onFilterByLocation($event)"
   />
   <select name="" id="" [(ngModel)]="filters.type" (ngModelChange)="onFilterByType($event)">
+    <option value="All">All</option>
     <option value="meetup">meetup</option>
     <option value="concert">concert</option>
     <option value="workshop">workshop</option>
@@ -32,4 +33,5 @@
     <option value="conference">conference</option>
     <option value="webinar">webinar</option>
   </select>
+  <button (click)="onClearFilters()">Wyczyść filtry</button>
 </div>
