@@ -14,4 +14,6 @@ export class EventsListComponent {
   eventListService = inject(eventsListService);
 
   eventsList = this.eventListService.eventsList;
+
+  isAddNewEventDisplayed = this.eventListService.isAddNewEventDisplayed;
 }

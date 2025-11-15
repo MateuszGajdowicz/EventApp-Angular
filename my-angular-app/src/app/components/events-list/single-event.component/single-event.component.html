@@ -13,10 +13,10 @@
   <p>{{ member }}</p>
   } } }
 
-  <p>{{ event()?.host }}</p>
+  <p>Host : {{ event()?.host }}</p>
   @if(event()?.status ==='owner'){
   <p>You are the owner</p>
-  } @else{
+  } @else{ @if(event()?.currentMembers?.length!==event()?.capacity){
   <select
     class="bg-blue-300 h-8 rounded-xl border-none p-2"
     name=""
@@ -28,7 +28,9 @@
     <option value="unwilling">Niechętny</option>
     <option value="interested">Zainteresowany</option>
   </select>
-  }
+  } @else {
+  <p>Nie ma wolnych miejsc na to wydarzenie</p>
+  } }
   <p class="cursor-pointer" (click)="changeCommentsDisplay()">Komentarze</p>
   <p class="cursor-pointer" (click)="ChangeAddCommentDisplayed()">Dodaj komenatrz</p>
 
@@ -45,8 +47,9 @@
   } } @else {
 
   <p>Brak komentarzy</p>
-  } } @if(event()?.host===username()){
-  <button>Edytuj</button>
+  } } @if(event()?.status==='owner'){
+  <button (click)="onSelectEditedEvent()">Edytuj</button>
+  <button (click)="onDeleteEvent()">Usuń</button>
 
   }
 </div>

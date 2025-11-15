@@ -23,6 +23,8 @@ export class AddEventComponent {
 
   username = computed(() => this.eventListService.userName());
 
+  isAddNewEventDisplayed = this.eventListService.isAddNewEventDisplayed;
+
   onAddNewEvent() {
     this.newEvent = {
       id: Math.floor(Math.random() * 1000),

@@ -1,7 +1,10 @@
 <app-header />
 @if(isNameGiven()){
-<app-events-list /> <app-add-event />
-
-} @else {
+<app-events-list />
+@if(isAddNewEventDisplayed()){
+<app-add-event />
+} @if(selectedEditedEvent()){
+<app-edit-event />
+} } @else {
 <app-name-input [isNameGiven]="isNameGiven" />
 }

@@ -1,0 +1,37 @@
+<div class="bg-slate-500 absolute w-[300px] left-[70%] top-[35%] flex flex-col p-20 gap-4">
+  <input
+    class="p-2 rounded-xl"
+    type="text"
+    placeholder="Nazwa"
+    [(ngModel)]="editedEventValues!.title"
+  />
+  <input
+    class="p-2 rounded-xl"
+    type="text"
+    placeholder="Opis"
+    [(ngModel)]="editedEventValues!.date"
+  />
+  <input
+    class="p-2 rounded-xl"
+    type="text"
+    placeholder="Lokalizacja"
+    [(ngModel)]="editedEventValues!.location"
+  />
+  <select class="p-2 rounded-xl" name="" id="" [(ngModel)]="editedEventValues!.type">
+    <option value="meetup">meetup</option>
+    <option value="concert">concert</option>
+    <option value="workshop">workshop</option>
+    <option value="party">party</option>
+    <option value="sport">sport</option>
+    <option value="conference">conference</option>
+    <option value="webinar">webinar</option>
+  </select>
+  <input
+    class="p-2 rounded-xl"
+    type="number"
+    placeholder="Capacity"
+    [(ngModel)]="editedEventValues!.capacity"
+  />
+  <button class="p-2 rounded-xl" (click)="onEditEvent()">Edytuj</button>
+  <button class="p-2 rounded-xl" (click)="selectedEditedEvent.set(null)">Anuluj</button>
+</div>

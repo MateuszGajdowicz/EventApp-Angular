@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { commentType, eventType } from '../modules/event.module';
+import { commentType, EventType, eventType } from '../modules/event.module';
 import { filter } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,12 +11,12 @@ export class eventsListService {
       title: 'Angular Meetup PW',
       description:
         'Spotkanie fanów Angulara na Politechnice Warszawskiej. Prezentacje, networking i mini warsztaty.',
-      host: 'Jan Kowalski',
+      host: 'Mieciu',
       location: 'Politechnika Warszawska, Warszawa',
       type: 'meetup',
       tags: ['Angular', 'Frontend', 'Tech'],
       capacity: 50,
-      status: 'unwilling',
+      status: 'owner',
       currentMembers: [],
       date: '2025-11-20T18:00:00', // przyszły tydzień
       comments: [
@@ -32,7 +32,7 @@ export class eventsListService {
       location: 'Park Saski, Warszawa',
       type: 'concert',
       tags: ['Jazz', 'Muzyka', 'Plener'],
-      capacity: 200,
+      capacity: 0,
       status: 'unwilling',
       currentMembers: [],
       date: '2025-08-10T20:00:00', // przeszły event (lato)
@@ -93,23 +93,39 @@ export class eventsListService {
 
   eventsList = signal<eventType[]>([...this.allEvents()]);
 
+  selectedEditEvent = signal<eventType | null>(null);
+
+  isAddNewEventDisplayed = signal<boolean>(false);
+
   updateEventStatus(event: eventType, newStatus: 'willing' | 'interested' | 'unwilling' | 'owner') {
     this.eventsList.update((events) =>
       events.map((e) => (e.id === event.id ? { ...e, status: newStatus } : e))
     );
     if (newStatus === 'willing' || newStatus === 'interested') {
       if (!event.currentMembers.includes(this.userName())) {
-        this.eventsList.update((events) =>
-          events.map((e) =>
-            e.id === event.id
-              ? {
-                  ...e,
-                  currentMembers: [...(e.currentMembers || []), this.userName()],
-                }
-              : e
-          )
-        );
+        if (event.currentMembers.length !== event.capacity) {
+          this.eventsList.update((events) =>
+            events.map((e) =>
+              e.id === event.id
+                ? {
+                    ...e,
+                    currentMembers: [...(e.currentMembers || []), this.userName()],
+                  }
+                : e
+            )
+          );
+        }
       }
+    } else if (newStatus === 'unwilling') {
+      this.eventsList.update((events) => {
+        const changedEvent = events.find((element) => element.id === event.id);
+        if (changedEvent) {
+          changedEvent.currentMembers = changedEvent.currentMembers.filter(
+            (member) => member !== this.userName()
+          );
+        }
+        return [...events];
+      });
     }
   }
 
@@ -148,12 +164,16 @@ export class eventsListService {
     if (value === 'All') {
       this.eventsList.set(this.allEvents());
     } else {
-      let filtered = this.allEvents().filter((element) => element.type === value);
+      let filtered = this.eventsList().filter((element) => element.type === value);
       this.eventsList.set(filtered);
     }
   }
   ClearFilters() {
     this.eventsList.set(this.allEvents());
+  }
+
+  filterYourEvents() {
+    this.eventsList.set(this.eventsList().filter((element) => element.host === this.userName()));
   }
 
   addComment(commentedValue: string, selectedEventId: number) {
@@ -164,5 +184,21 @@ export class eventsListService {
       user: this.userName(),
       content: commentedValue,
     });
+  }
+
+  selectEditedEvent(event: eventType) {
+    this.selectedEditEvent.set(event);
+    console.log(this.selectedEditEvent());
+  }
+
+  editEvent(editedEventValue: eventType) {
+    this.eventsList.update((prev) => {
+      return prev.map((event) => (event.id === editedEventValue.id ? editedEventValue : event));
+    });
+    this.selectedEditEvent.set(null);
+  }
+
+  deleteEvent(event: eventType) {
+    this.eventsList.update((prev) => prev.filter((element) => element.id !== event.id));
   }
 }

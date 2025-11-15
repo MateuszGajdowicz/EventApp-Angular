@@ -16,7 +16,7 @@ export class SingleEventComponent {
 
   username = this.eventListService.userName;
 
-  selectValue = signal<string>('unwilling');
+  selectValue = signal<string | null>('unwilling');
 
   areCommentsDisplayed = signal<boolean>(false);
 
@@ -28,9 +28,10 @@ export class SingleEventComponent {
     effect(() => {
       const event = this.event();
       if (!event) return;
-
-      if (event.status !== this.selectValue()) {
-        this.onUpdateEventStatus(event, this.selectValue());
+      if (this.event()?.status !== 'owner') {
+        if (event.status !== this.selectValue()) {
+          this.onUpdateEventStatus(event, this.selectValue());
+        }
       }
 
       console.log(event);
@@ -50,5 +51,12 @@ export class SingleEventComponent {
   }
   onUpdateEventStatus(event: eventType, newStatus: any) {
     this.eventListService.updateEventStatus(event, newStatus);
+  }
+  onSelectEditedEvent() {
+    if (!this.event()) return;
+    this.eventListService.selectEditedEvent(this.event()!);
+  }
+  onDeleteEvent() {
+    this.eventListService.deleteEvent(this.event()!);
   }
 }

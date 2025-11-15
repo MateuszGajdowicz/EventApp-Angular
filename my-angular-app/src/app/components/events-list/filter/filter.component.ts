@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { eventsListService } from '../../../services/eventsList.service';
 import { FormsModule } from '@angular/forms';
 
@@ -17,7 +17,7 @@ export class FilterComponent {
     location: '',
     type: 'All',
   };
-
+  buttonValue = signal<string>('Stworzone przez ciebie');
   onFilterByTitle(value: string) {
     this.eventListService.filterByTitle(value);
   }
@@ -32,6 +32,15 @@ export class FilterComponent {
   onFilterByType(value: string) {
     this.eventListService.filterByType(value);
   }
+  OnFilterYourEvents() {
+    if (this.buttonValue() === 'Wszystkie') {
+      this.eventListService.eventsList.set(this.eventListService.allEvents());
+      this.buttonValue.set('Stworzone przez ciebie');
+    } else {
+      this.eventListService.filterYourEvents();
+      this.buttonValue.set('Wszystkie');
+    }
+  }
   onClearFilters() {
     this.eventListService.ClearFilters();
     this.filters = {
@@ -41,5 +50,6 @@ export class FilterComponent {
       location: '',
       type: 'All',
     };
+    this.buttonValue.set('Stworzone dla ciebie');
   }
 }
